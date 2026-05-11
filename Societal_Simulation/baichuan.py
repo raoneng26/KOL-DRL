@@ -4,7 +4,6 @@ import requests
 import time
 import json
 
-#API_KEY = 'sk-f900bdfa95dba3143546b63b73768e0e'
 
 URL = 'https://api.baichuan-ai.com/v1/chat/completions'
 
