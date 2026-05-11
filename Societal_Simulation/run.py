@@ -16,8 +16,8 @@ def get_event_log():
         json.dump(cur_log, f)
         
 
-# API_KEY = 'sk-f900bdfa95dba3143546b63b73768e0e'
-API_KEY = 'sk-36a13fc3f2bfe35784a438ef780d6b4e' 
+
+API_KEY = 'xxx' 
 
 
 
