@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>SimuMarket | 金融舆情多智能体仿真看板</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; }
+
+        /* 网络图容器：拟物化玻璃质感 */
+        #network-container { 
+            height: 720px; 
+            background: #ffffff; 
+            border-radius: 3rem;
+            box-shadow: inset 0 0 40px rgba(0,0,0,0.02);
+        }
+
+        /* 隐藏 Vis.js 默认边框 */
+        .vis-network { outline: none; }
+
+        /* 评论流滚动条 */
+        .feed-container { height: 920px; overflow-y: auto; scrollbar-width: none; }
+        .feed-container::-webkit-scrollbar { display: none; }
+        
+        /* 二级评论折叠动画 */
+        .replies-container { 
+            max-height: 0; 
+            overflow: hidden; 
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1); 
+        }
+        .replies-container.expanded { max-height: 3000px; }
+        
+        /* 按钮与交互 */
+        .btn-expand { transition: all 0.3s; cursor: pointer; }
+        .sub-comment-item { transition: all 0.2s ease; border-left: 3px solid transparent; }
+        .sub-comment-item:hover { background: #f1f5f9; border-left-color: #f59e0b; padding-left: 1rem; }
+
+        /* 动画引导线 */
+        .guide-line { border-left: 2px solid #f1f5f9; margin-left: 0.75rem; padding-left: 1.5rem; }
+    </style>
+</head>
+<body class="p-6 lg:p-10">
+
+<div class="max-w-[1800px] mx-auto">
+    <!-- 顶部导航 -->
+    <header class="flex justify-between items-end mb-10 px-4">
+        <div>
+            <div class="flex items-center gap-4 mb-2">
+                <div class="w-12 h-12 bg-slate-900 rounded-2xl flex items-center justify-center text-white font-black italic shadow-xl">S</div>
+                <h1 class="text-4xl font-black tracking-tighter text-slate-900 uppercase">Simu<span class="text-blue-600">Market</span></h1>
+            </div>
+            <p class="text-slate-400 font-bold text-xs tracking-[0.2em] uppercase ml-1">Agent-Based Sentiment Dynamics Observation</p>
+        </div>
+        <div class="flex gap-4">
+            <div class="bg-white px-8 py-4 rounded-3xl shadow-sm border border-slate-100 text-center">
+                <span id="node-count" class="block text-2xl font-black text-blue-600">0</span>
+                <span class="text-[10px] text-slate-400 font-black uppercase tracking-widest">Live Agents</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="grid grid-cols-12 gap-10">
+        <!-- 左侧：动态拓扑网络 -->
+        <div class="col-span-7">
+            <div class="bg-white p-5 rounded-[3.5rem] shadow-2xl shadow-slate-200/60 border border-white relative">
+                <div id="network-container"></div>
+                <!-- 悬浮图例 -->
+                <div class="absolute top-10 left-10 bg-white/80 backdrop-blur-xl p-6 rounded-[2rem] border border-slate-100 shadow-xl space-y-3 z-20">
+                    <h5 class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Classification</h5>
+                    <div class="flex items-center gap-3 text-xs font-bold text-slate-700"><span class="w-4 h-4 rounded-lg bg-amber-400 shadow-lg shadow-amber-200"></span> 意见领袖 (KOL)</div>
+                    <div class="flex items-center gap-3 text-xs font-bold text-slate-700"><span class="w-4 h-4 rounded-lg bg-blue-500 shadow-lg shadow-blue-200"></span> 专业分析师</div>
+                    <div class="flex items-center gap-3 text-xs font-black text-slate-700"><span class="w-4 h-4 rounded-lg bg-emerald-500 shadow-lg shadow-emerald-200"></span> 积极交易者</div>
+                    <div class="flex items-center gap-3 text-xs font-black text-slate-700"><span class="w-4 h-4 rounded-lg bg-rose-500 shadow-lg shadow-rose-200"></span> 恐慌型散户</div>
+                    <div class="flex items-center gap-3 text-xs font-black text-slate-700"><span class="w-4 h-4 rounded-lg bg-slate-300"></span> 其他观察者</div>
+                </div>
+            </div>
+            
+            <!-- Agent 详情卡片 -->
+            <div id="agent-detail-panel" class="mt-8 bg-slate-900 rounded-[2.5rem] p-10 text-white shadow-2xl hidden transform transition-all duration-500">
+                <div class="flex items-center gap-10">
+                    <div id="agent-avatar-box" class="w-24 h-24 rounded-[2rem] flex items-center justify-center text-5xl font-black shadow-2xl"></div>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-4 mb-3">
+                            <h3 id="agent-detail-name" class="text-3xl font-black tracking-tight italic"></h3>
+                            <span class="px-4 py-1 bg-white/10 rounded-full text-[10px] font-black tracking-[0.2em] uppercase">Sim-Verified Agent</span>
+                        </div>
+                        <p id="agent-detail-char" class="text-slate-400 leading-relaxed text-sm"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 右侧：社交媒体 Feed -->
+        <div class="col-span-5 feed-container space-y-8 pr-2">
+            <!-- KOL 帖子卡片 -->
+            <div class="bg-white p-10 rounded-[3rem] shadow-xl border border-white relative overflow-hidden">
+                <div id="bg-user-tag" class="absolute -right-6 -top-6 text-slate-50 font-black text-[10rem] select-none uppercase italic">KOL</div>
+                
+                <div class="flex items-center gap-5 mb-8 relative z-10">
+                    <div class="w-16 h-16 bg-amber-400 rounded-[1.2rem] flex items-center justify-center text-white text-3xl shadow-xl shadow-amber-100">★</div>
+                    <div>
+                        <h3 id="kol-name-ui" class="text-2xl font-black text-slate-900 tracking-tighter uppercase italic">Loading...</h3>
+                        <div class="flex items-center gap-3">
+                            <p id="kol-handle-ui" class="text-blue-500 font-bold text-xs uppercase tracking-widest">@SOURCE</p>
+                            <span class="text-slate-200 font-light">|</span>
+                            <p id="kol-time-ui" class="text-slate-400 font-black text-[10px]">YYYY-MM-DD</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <p id="kol-content-ui" class="text-2xl font-black text-slate-800 leading-[1.2] mb-10 relative z-10"></p>
+                
+                <div class="flex gap-12 py-8 border-y border-slate-50 relative z-10">
+                    <div class="text-center"><span class="block text-2xl font-black text-slate-900" id="stat-k-likes">0</span><span class="text-[10px] text-slate-400 font-black uppercase">Appreciation</span></div>
+                    <div class="text-center"><span class="block text-2xl font-black text-slate-900" id="stat-k-rt">0</span><span class="text-[10px] text-slate-400 font-black uppercase">Amplification</span></div>
+                    <div class="text-center"><span class="block text-2xl font-black text-slate-900" id="stat-k-cm">0</span><span class="text-[10px] text-slate-400 font-black uppercase">Engagement</span></div>
+                </div>
+            </div>
+
+            <!-- 评论区容器 -->
+            <div id="main-comment-flow" class="space-y-6"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+let network, nodes, edges, agentMap = {};
+
+const ROLE_THEME = {
+    analyst: { bg: '#3b82f6', border: '#1e40af', icon: '◈' },
+    retail: { bg: '#10b981', border: '#064e3b', icon: '▲' },
+    panic: { bg: '#f43f5e', border: '#881337', icon: '▼' },
+    other: { bg: '#94a3b8', border: '#475569', icon: '●' }
+};
+
+// 工具函数：解析复杂的 post_content 字符串
+function parseRawPost(str) {
+    try {
+        const contentMatch = str.match(/"content":\s*"([\s\S]*?)"/);
+        const userMatch = str.match(/"user_name":\s*"([\s\S]*?)"/);
+        const timeMatch = str.match(/"pub_time":\s*"([\s\S]*?)"/);
+        return {
+            content: contentMatch ? contentMatch[1].replace(/\\n/g, '\n') : str,
+            user_name: userMatch ? userMatch[1] : "KOL",
+            pub_time: timeMatch ? timeMatch[1] : "N/A"
+        };
+    } catch (e) { return { content: str, user_name: "KOL", pub_time: "N/A" }; }
+}
+
+function getTheme(desc) {
+    if (desc.includes("分析师") || desc.includes("观察员")) return ROLE_THEME.analyst;
+    if (desc.includes("散户") || desc.includes("Degen") || desc.includes("交易员")) return ROLE_THEME.retail;
+    if (desc.includes("新手") || desc.includes("恐慌") || desc.includes("套牢")) return ROLE_THEME.panic;
+    return ROLE_THEME.other;
+}
+
+async function initDashboard() {
+    try {
+        const [pRes, sRes] = await Promise.all([fetch('case_lite5.json'), fetch('log/market_input_step_0.json')]);
+        const pData = await pRes.json();
+        const sData = await sRes.json();
+        pData.person.forEach((p, i) => agentMap[i] = p);
+        renderSimulation(sData);
+        document.getElementById('node-count').innerText = pData.person.length + 1;
+    } catch (e) { console.error(e); alert("数据加载失败！请检查本地 JSON 文件和服务器环境。"); }
+}
+
+function renderSimulation(data) {
+    const postParsed = parseRawPost(data.post_content);
+    
+    // 更新 UI
+    document.getElementById('kol-content-ui').innerText = postParsed.content;
+    document.getElementById('kol-name-ui').innerText = postParsed.user_name;
+    document.getElementById('kol-handle-ui').innerText = "@" + postParsed.user_name;
+    document.getElementById('kol-time-ui').innerText = postParsed.pub_time;
+    document.getElementById('bg-user-tag').innerText = postParsed.user_name.slice(0,4);
+    document.getElementById('stat-k-likes').innerText = data.post_likes;
+    document.getElementById('stat-k-rt').innerText = data.post_retweets;
+    document.getElementById('stat-k-cm').innerText = data.comments.length;
+
+    // 网络图初始化
+    nodes = new vis.DataSet([{
+        id: 'kol', label: postParsed.user_name, shape: 'star', size: 45,
+        color: { background: '#fbbf24', border: '#d97706' },
+        font: { color: '#92400e', size: 16, weight: '900', strokeWidth: 4, strokeColor: '#fff' },
+        shadow: { enabled: true, color: 'rgba(251,191,36,0.3)', size: 30 },
+        isKOL: true
+    }]);
+    edges = new vis.DataSet([]);
+
+    const flowContainer = document.getElementById('main-comment-flow');
+
+    data.comments.forEach((c, idx) => {
+        const p = agentMap[c.agent_id];
+        const theme = getTheme(p.general);
+
+        // 创建一级节点
+        if(!nodes.get(c.agent_id)) {
+            nodes.add({
+                id: c.agent_id, label: p.general, shape: 'dot', size: 26,
+                initialSize: 26, initialColor: theme.bg, initialBorder: theme.border,
+                color: { background: theme.bg, border: theme.border },
+                font: { size: 13, weight: 'bold', color: '#475569', vadjust: 32 }
+            });
+        }
+        edges.add({ from: c.agent_id, to: 'kol', color: '#e2e8f0', width: 2 });
+
+        // 构建 HTML
+        const repliesId = `replies-${idx}`;
+        const card = document.createElement('div');
+        card.className = "bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-50";
+        card.innerHTML = `
+            <div class="flex items-center gap-3 mb-4">
+                <span class="w-3 h-3 rounded-full shadow-sm" style="background:${theme.bg}"></span>
+                <span class="font-black text-[10px] uppercase tracking-widest text-slate-800">${p.general}</span>
+            </div>
+            <p class="text-slate-700 font-semibold leading-relaxed mb-6">${c.text}</p>
+            <div class="flex items-center justify-between border-t border-slate-50 pt-6">
+                <div class="flex gap-6 text-[10px] font-black text-slate-400 uppercase tracking-tighter">
+                    <span class="flex items-center gap-1 hover:text-blue-500 cursor-pointer transition-colors">❤ ${c.likes}</span>
+                    <span class="flex items-center gap-1 hover:text-blue-500 cursor-pointer transition-colors">🔄 ${c.retweets}</span>
+                    <span class="flex items-center gap-1 hover:text-blue-500 cursor-pointer transition-colors">💬 ${c.sub_comments.length}</span>
+                </div>
+                <button onclick="toggleReplies('${repliesId}', this)" class="btn-expand text-[10px] font-black text-blue-500 uppercase tracking-widest hover:bg-blue-50 px-4 py-2 rounded-xl transition-all">展开互动 +</button>
+            </div>
+            <div id="${repliesId}" class="replies-container">
+                <div class="guide-line mt-6 space-y-4">
+                    ${c.sub_comments.map(sub => {
+                        const sp = agentMap[sub.agent_id];
+                        const stheme = getTheme(sp.general);
+                        const eid = `e_${sub.agent_id}_${c.agent_id}`;
+                        
+                        if(!nodes.get(sub.agent_id)) {
+                            nodes.add({
+                                id: sub.agent_id, label: sp.general, shape: 'dot', size: 18,
+                                initialSize: 18, initialColor: stheme.bg, initialBorder: stheme.border,
+                                color: { background: stheme.bg, border: stheme.border },
+                                font: { size: 11, color: '#94a3b8', vadjust: 25 }
+                            });
+                        }
+                        edges.add({ id: eid, from: sub.agent_id, to: c.agent_id, arrows: 'to', color: '#cbd5e1', dashes: true });
+
+                        return `
+                            <div class="sub-comment-item py-2 px-1 rounded-lg" 
+                                 onmouseenter="focusInteraction('${sub.agent_id}', '${c.agent_id}', '${eid}')" 
+                                 onmouseleave="resetInteraction()">
+                                <div class="font-black text-[9px] mb-1" style="color:${stheme.bg}">${sp.general}</div>
+                                <p class="text-slate-500 text-sm font-medium leading-snug">${sub.text}</p>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            </div>
+        `;
+        flowContainer.appendChild(card);
+    });
+
+    startGraph();
+}
+
+function toggleReplies(id, btn) {
+    const el = document.getElementById(id);
+    const expanded = el.classList.toggle('expanded');
+    btn.innerText = expanded ? "收起互动 -" : "展开互动 +";
+    btn.classList.toggle('bg-slate-100', expanded);
+}
+
+function startGraph() {
+    const options = {
+        physics: { 
+            forceAtlas2Based: { gravitationalConstant: -90, springLength: 180 }, 
+            solver: 'forceAtlas2Based', 
+            stabilization: { iterations: 120 } 
+        },
+        interaction: { hover: true, tooltipDelay: 200 }
+    };
+    network = new vis.Network(document.getElementById('network-container'), { nodes, edges }, options);
+    network.on("click", (p) => p.nodes[0] && showAgentDetails(p.nodes[0]));
+}
+
+function focusInteraction(from, to, eid) {
+    edges.update({ id: eid, color: '#f59e0b', width: 6, dashes: false });
+    nodes.update({ 
+        id: from, size: 38, 
+        color: { background: '#f59e0b', border: '#d97706' }, 
+        font: { size: 18, color: '#f59e0b', bold: true } 
+    });
+    nodes.update({ id: to, shadow: { enabled: true, color: '#f59e0b', size: 35 } });
+    network.fit({ nodes: [from, to], animation: { duration: 500 } });
+}
+
+function resetInteraction() {
+    nodes.forEach(n => {
+        if(n.isKOL) return;
+        if(n.initialColor) {
+            nodes.update({ 
+                id: n.id, size: n.initialSize, 
+                color: { background: n.initialColor, border: n.initialBorder },
+                font: { size: n.initialSize === 26 ? 13 : 11, color: '#475569', bold: false },
+                shadow: { enabled: false } 
+            });
+        }
+    });
+    edges.forEach(e => edges.update({ id: e.id, color: '#cbd5e1', width: 2, dashes: true }));
+}
+
+function showAgentDetails(id) {
+    if(id === 'kol') return;
+    const p = agentMap[id];
+    const theme = getTheme(p.general);
+    const panel = document.getElementById('agent-detail-panel');
+    panel.classList.remove('hidden');
+    
+    const av = document.getElementById('agent-avatar-box');
+    av.innerText = theme.icon;
+    av.style.backgroundColor = theme.bg;
+    av.style.boxShadow = `0 15px 40px -5px ${theme.bg}88`;
+    
+    document.getElementById('agent-detail-name').innerText = p.general;
+    document.getElementById('agent-detail-char').innerText = p.character;
+}
+
+initDashboard();
+</script>
+</body>
+</html>

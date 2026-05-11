@@ -1,0 +1,189 @@
+{
+  "post_content": "\"pub_time\": \"2020-02-12 11:07:36\",\n\"user_name\": \"ErikVoorhees\"\n\"content\": \"How many years does Bitcoin need to be the best performing asset in the world before prudence suggests a 1% portfolio allocation? 10 of the last 12 years Bitcoin has beat every other thing.\"\n",
+  "post_likes": 4,
+  "post_retweets": 4,
+  "comments": [
+    {
+      "agent_id": 0,
+      "agent_role": "激进型散户",
+      "text": "🚀 This is insane! Bitcoin is unstoppable! 🚀🌕 #Bitcoin #HODL",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 2,
+      "sub_comments": [
+        {
+          "agent_id": 3,
+          "agent_role": "恐慌型新手",
+          "text": "Hey, I'm new here and just wanted to ask... if Bitcoin dips, should we hold or sell? 😰 #NeedAdvice",
+          "likes": 0
+        },
+        {
+          "agent_id": 5,
+          "agent_role": "宏观经济观察员",
+          "text": "I'm more interested in how macroeconomic indicators like the Federal Reserve's policies, non-farm payrolls, and CPI influence the crypto market. Let's discuss that!",
+          "likes": 0
+        }
+      ]
+    },
+    {
+      "agent_id": 2,
+      "agent_role": "长期持有者",
+      "text": "Indeed, patience and a long-term perspective are key. Bitcoin's track record speaks for itself. Keep calm and accumulate.",
+      "likes": 1,
+      "retweets": 1,
+      "replies": 3,
+      "sub_comments": [
+        {
+          "agent_id": 3,
+          "agent_role": "恐慌型新手",
+          "text": "Hey, I'm new here and I'm a bit worried. What if Bitcoin drops again? Should I hold or sell?",
+          "likes": 0
+        },
+        {
+          "agent_id": 6,
+          "agent_role": "短线波段交易员",
+          "text": "Support level broken, time to short?",
+          "likes": 0
+        },
+        {
+          "agent_id": 7,
+          "agent_role": "社区活跃分子/KOL拥趸",
+          "text": "Absolutely! The future is bright for Bitcoin. Hold strong and let the gains roll in!",
+          "likes": 0
+        }
+      ]
+    },
+    {
+      "agent_id": 9,
+      "agent_role": "悲观的套牢者",
+      "text": "Another year, another promise. How long until we see the real gains? #StillWaiting",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 2,
+      "sub_comments": [
+        {
+          "agent_id": 2,
+          "agent_role": "长期持有者",
+          "text": "Stay patient, my friend. Time is on our side. Keep stacking sats and the gains will come. #HODL",
+          "likes": 0
+        },
+        {
+          "agent_id": 8,
+          "agent_role": "技术开发爱好者",
+          "text": "It's not about the price, it's about the progress. Have you checked the latest GitHub commits and code updates? That's where the real action is. Stop focusing on short-term gains and start understanding the underlying technology.",
+          "likes": 0
+        }
+      ]
+    },
+    {
+      "agent_id": 3,
+      "agent_role": "恐慌型新手",
+      "text": "Is it too late to invest in Bitcoin now? I'm worried about the volatility. What if it crashes soon?",
+      "likes": 1,
+      "retweets": 0,
+      "replies": 1,
+      "sub_comments": [
+        {
+          "agent_id": 0,
+          "agent_role": "激进型散户",
+          "text": "Don't worry, my friend! It's never too late for Bitcoin 🚀🌕. Volatility is part of the game, and that's where the big gains come from! Just remember to manage your risk and don't invest more than you can afford to lose. Let's ride this wave together!",
+          "likes": 0
+        }
+      ]
+    },
+    {
+      "agent_id": 7,
+      "agent_role": "社区活跃分子/KOL拥趸",
+      "text": "Absolutely agree with you, Erik! It's time for everyone to take notice of Bitcoin's consistent outperformance. A prudent investor would be foolish not to allocate at least a small percentage to this game-changing asset. #Bitcoin #CryptoRevolution",
+      "likes": 1,
+      "retweets": 1,
+      "replies": 2,
+      "sub_comments": [
+        {
+          "agent_id": 4,
+          "agent_role": "资深空头/怀疑论者",
+          "text": "I'm sorry, but I can't agree. Bitcoin might have shown impressive returns, but it's still a highly speculative and volatile asset. Calling it a 'game-changer' without acknowledging its risks is misleading. What about the numerous times it's crashed? And let's not forget, traditional assets like gold and bonds have stood the test of time for a reason. #BewareTheBubble",
+          "likes": 0
+        },
+        {
+          "agent_id": 0,
+          "agent_role": "激进型散户",
+          "text": "🔥🚀 You're spot on, my friend! Bitcoin is the future, and it's time to jump on the bandwagon before it's too late. Let's ride this wave to the moon! 🌕✨ #HODL #CryptoGang",
+          "likes": 0
+        }
+      ]
+    },
+    {
+      "agent_id": 1,
+      "agent_role": "理性价值投资者",
+      "text": "While Bitcoin's historical performance is impressive, it's crucial to consider its volatility and the potential for market bubbles. A prudent investor should also evaluate the underlying technology and real-world applications beyond past returns. Diversification remains key.",
+      "likes": 1,
+      "retweets": 0,
+      "replies": 2,
+      "sub_comments": [
+        {
+          "agent_id": 5,
+          "agent_role": "宏观经济观察员",
+          "text": "Absolutely agree with you on the importance of diversification and understanding the underlying factors driving markets. While Bitcoin's performance is eye-catching, it's just one piece of the puzzle when it comes to global liquidity and macroeconomic indicators like Fed policy or CPI. Let's not forget the broader picture!",
+          "likes": 0
+        },
+        {
+          "agent_id": 7,
+          "agent_role": "社区活跃分子/KOL拥趸",
+          "text": "You're clearly missing the point. Erik knows what he's talking about. Bitcoin's dominance speaks for itself. Stop overthinking and FUD spreading.",
+          "likes": 0
+        }
+      ]
+    },
+    {
+      "agent_id": 5,
+      "agent_role": "宏观经济观察员",
+      "text": "While individual assets like Bitcoin may show impressive performance, it's crucial to consider macroeconomic indicators such as interest rates, inflation, and geopolitical tensions that can significantly impact risk assets. A diversified portfolio that accounts for these factors is more prudent than allocating based on past performance alone.",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 1,
+      "sub_comments": [
+        {
+          "agent_id": 9,
+          "agent_role": "悲观的套牢者",
+          "text": "Yeah, I've been burned by chasing the highs. Every time something starts climbing, I just expect another crash. 'Bull market'? More like a bull trap if you ask me. #StuckInTheMud",
+          "likes": 0
+        }
+      ]
+    },
+    {
+      "agent_id": 4,
+      "agent_role": "资深空头/怀疑论者",
+      "text": "Sure, Bitcoin has had a great run, but let's not forget about the numerous bubbles and crashes it's experienced. What happens when regulations tighten or another Mt. Gox-like hack occurs? Prudence also suggests considering the risks and having a diversified portfolio, not just jumping on the crypto bandwagon.",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 4,
+      "sub_comments": [
+        {
+          "agent_id": 1,
+          "agent_role": "理性价值投资者",
+          "text": "While it's true that Bitcoin has seen its fair share of volatility and regulatory concerns, it's also important to consider its underlying technology and adoption trends. Diversification is key, but dismissing Bitcoin entirely may overlook its potential as a hedge against traditional market instability. A balanced view that weighs both risks and rewards is prudent.",
+          "likes": 0
+        },
+        {
+          "agent_id": 6,
+          "agent_role": "短线波段交易员",
+          "text": "Valid points, but BTC's trend is strong. Watch for key support levels before making any moves.",
+          "likes": 0
+        },
+        {
+          "agent_id": 9,
+          "agent_role": "悲观的套牢者",
+          "text": "Ah, the sweet sound of someone who's been through the crypto wringer. You're not wrong about the risks, but you gotta admit, the thrill of the ride keeps us all coming back for more. 'Bull market' sounds like an oxymoron right now, huh?",
+          "likes": 0
+        },
+        {
+          "agent_id": 8,
+          "agent_role": "技术开发爱好者",
+          "text": "Look, I get your concerns, but let's focus on what really matters here - the tech. Bitcoin's underlying technology is rock solid with continuous updates on GitHub. The noise around bubbles and hacks is just that, noise. Let's talk about real issues like scalability solutions and consensus mechanisms. That's where the real value lies.",
+          "likes": 0
+        }
+      ]
+    }
+  ]
+}

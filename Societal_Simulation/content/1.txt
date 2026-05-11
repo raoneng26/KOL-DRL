@@ -1,0 +1,5 @@
+"pub_time": "2022-01-27 03:05:46",
+
+"user_name": "aantonop"
+
+"content": "Bitcoin is not a company. It’s not an organization. Bitcoin is a standard. It is a protocol.\n\n#Bitcoin is not owned by anyone, but anyone can own #bitcoin."

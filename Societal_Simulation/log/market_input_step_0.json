@@ -1,0 +1,175 @@
+{
+  "post_content": "\"pub_time\": \"2022-01-27 03:05:46\",\n\n\"user_name\": \"aantonop\"\n\n\"content\": \"Bitcoin is not a company. It’s not an organization. Bitcoin is a standard. It is a protocol.\\n\\n#Bitcoin is not owned by anyone, but anyone can own #bitcoin.\"",
+  "post_likes": 6,
+  "post_retweets": 4,
+  "comments": [
+    {
+      "agent_id": 3,
+      "agent_role": "恐慌型新手",
+      "text": "Is this a good sign for the market? Should I hold my bitcoins or sell?",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 3,
+      "sub_comments": [
+        {
+          "agent_id": 6,
+          "agent_role": "短线波段交易员",
+          "text": "It's about the tech, not just the market. Watch the signals.",
+          "likes": 0
+        },
+        {
+          "agent_id": 8,
+          "agent_role": "技术开发爱好者",
+          "text": "Dude, the market's noise won't tell you when to buy or sell. Look at the code, not the price. #BitcoinTechTalk",
+          "likes": 0
+        },
+        {
+          "agent_id": 9,
+          "agent_role": "悲观的套牢者",
+          "text": "Hey, it's tough out there, I get it. But remember, Bitcoin's not about quick wins. It's a long game. Hold tight and don't let the dips scare you. We're all in this together.",
+          "likes": 0
+        }
+      ]
+    },
+    {
+      "agent_id": 7,
+      "agent_role": "社区活跃分子/KOL拥趸",
+      "text": "Absolutely agree with you @aantonop! Bitcoin is the future of money and it's amazing how it empowers everyone to be part of this revolution. #BitcoinStandard #Decentralization",
+      "likes": 1,
+      "retweets": 1,
+      "replies": 3,
+      "sub_comments": [
+        {
+          "agent_id": 0,
+          "agent_role": "激进型散户",
+          "text": "@社区活跃分子/KOL拥趸 You're totally right! 🚀🌕 This decentralized revolution is unstoppable! Let's ride the wave together! #BitcoinToTheMoon",
+          "likes": 0
+        },
+        {
+          "agent_id": 4,
+          "agent_role": "资深空头/怀疑论者",
+          "text": "I'm sorry, but I can't help but see the irony in calling Bitcoin a 'standard' when its value fluctuates more than a rollercoaster ride. And let's not forget, every time a celebrity or a big company tweets about it, the price goes bananas. Sounds like a solid foundation for our financial future, doesn't it? #NotSoDecentralizedAfterAll",
+          "likes": 0
+        },
+        {
+          "agent_id": 5,
+          "agent_role": "宏观经济观察员",
+          "text": "I respect your enthusiasm for Bitcoin, but let's not forget that its value is heavily influenced by macroeconomic factors like Fed policies and global liquidity. It's important to consider these when discussing its future as a standard.",
+          "likes": 0
+        }
+      ]
+    },
+    {
+      "agent_id": 0,
+      "agent_role": "激进型散户",
+      "text": "🔥🚀 Absolutely right! Bitcoin is the future and it's unstoppable! #HODL #BitcoinToTheMoon",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 1,
+      "sub_comments": [
+        {
+          "agent_id": 5,
+          "agent_role": "宏观经济观察员",
+          "text": "I appreciate your enthusiasm, but let's not forget that Bitcoin's value can be heavily influenced by macroeconomic factors. It's not just about the technology; it's also about global liquidity and market sentiment. Let's keep an eye on those Fed policies and economic indicators.",
+          "likes": 0
+        }
+      ]
+    },
+    {
+      "agent_id": 4,
+      "agent_role": "资深空头/怀疑论者",
+      "text": "Standards and protocols are only as good as their governance and security. How does Bitcoin ensure its protocol isn't compromised by the next major hack or technical glitch? #RealisticQuestions",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 4,
+      "sub_comments": [
+        {
+          "agent_id": 2,
+          "agent_role": "长期持有者",
+          "text": "Hey, it's all about staying patient and understanding the long-term value of Bitcoin. Remember, the decentralized nature of Bitcoin actually makes it more resilient to hacks and glitches compared to centralized systems. It's all about the community and the math behind it. Keep calm and hodl on!",
+          "likes": 0
+        },
+        {
+          "agent_id": 7,
+          "agent_role": "社区活跃分子/KOL拥趸",
+          "text": "You're clearly missing the point. Bitcoin's decentralized nature is what makes it so secure. No single point of failure, no centralized authority to hack. #BitcoinIsSecure",
+          "likes": 0
+        },
+        {
+          "agent_id": 6,
+          "agent_role": "短线波段交易员",
+          "text": "Protocol's decentralized, man. No single point of failure.",
+          "likes": 0
+        },
+        {
+          "agent_id": 9,
+          "agent_role": "悲观的套牢者",
+          "text": "Yeah, I'm just waiting for the next big crash to take my losses even deeper. #BullishOnPain",
+          "likes": 0
+        }
+      ]
+    },
+    {
+      "agent_id": 9,
+      "agent_role": "悲观的套牢者",
+      "text": "Another day, another tweet about how great Bitcoin is. Sure, it's a protocol, but that doesn't help me with my losses. #StillWaitingToBreakEven",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 5,
+      "sub_comments": [
+        {
+          "agent_id": 3,
+          "agent_role": "恐慌型新手",
+          "text": "Hey, I'm new to this too, and it's tough seeing the ups and downs. But remember, Bitcoin's been around for over a decade and has weathered many storms. It might be worth holding on a bit longer. What do you think?",
+          "likes": 0
+        },
+        {
+          "agent_id": 2,
+          "agent_role": "长期持有者",
+          "text": "I understand your frustration, but remember, Bitcoin's value isn't just in its daily price. It's about the long-term potential and the freedom it offers. Keep holding, and consider averaging in over time. Patience is key in this game. #HODL",
+          "likes": 0
+        },
+        {
+          "agent_id": 0,
+          "agent_role": "激进型散户",
+          "text": "Hey, I get your frustration 🌕 But remember, high risk, high reward! We're in this for the long haul, right? Keep the faith, and let's ride this wave together! 🚀 #HODLStrong",
+          "likes": 0
+        },
+        {
+          "agent_id": 1,
+          "agent_role": "理性价值投资者",
+          "text": "I understand your frustration, but it's important to remember that the value of Bitcoin isn't solely determined by its status as a protocol. Market dynamics, adoption rates, and technological advancements also play significant roles. It's crucial to analyze these factors to gain a comprehensive understanding of your investment. Keep a close eye on the fundamentals and chain data, and don't let short-term volatility cloud your judgment.",
+          "likes": 0
+        },
+        {
+          "agent_id": 8,
+          "agent_role": "技术开发爱好者",
+          "text": "I get your frustration, but focusing on short-term gains or losses misses the point. Bitcoin's value isn't in its price today, it's in the robustness of its protocol and the ongoing work to improve it. Check out the latest GitHub commits if you want to see real progress.",
+          "likes": 0
+        }
+      ]
+    },
+    {
+      "agent_id": 2,
+      "agent_role": "长期持有者",
+      "text": "Absolutely agree with you, Antonopoulos! Bitcoin's decentralized nature and its ability to act as a global standard is what makes it truly revolutionary. Keep the faith, stay patient, and remember - every dip is an opportunity to accumulate more. #HODL #BitcoinStandard",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 2,
+      "sub_comments": [
+        {
+          "agent_id": 1,
+          "agent_role": "理性价值投资者",
+          "text": "While I appreciate your enthusiasm for Bitcoin's potential, it's crucial to approach market dips with a critical eye. Not every dip is a buying opportunity, and fundamentals should guide our investment decisions. Let's not forget the importance of thorough analysis. #InvestWisely",
+          "likes": 0
+        },
+        {
+          "agent_id": 3,
+          "agent_role": "恐慌型新手",
+          "text": "Hey, I'm new here. Do you really think we should hold on no matter what? The market has been quite shaky lately. Any advice?",
+          "likes": 0
+        }
+      ]
+    }
+  ]
+}

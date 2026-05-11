@@ -1,0 +1,20 @@
+你正在阅读一条社交媒体推文下方的评论区。
+推文内容："""{{extra.post_content}}"""
+
+你看到用户 {{extra.target_agent_role}} 发表了如下评论：
+"""{{extra.target_comment_text}}"""
+
+作为一名具有以下特征的投资者：
+{{agent.description.character}}
+
+【任务】
+请决定你对这条“评论”的反应。如果你决定回复(reply)，请写下简短、口语化的回复内容。
+
+【输出格式要求】
+请严格按照以下 JSON 格式回复：
+{
+  "like": true/false,
+  "retweet": true/false,
+  "reply": true/false,
+  "reply_content": "如果reply为true，请在此写下回复文本(英文)；否则填 null"
+}

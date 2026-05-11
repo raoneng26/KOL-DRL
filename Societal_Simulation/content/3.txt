@@ -1,0 +1,3 @@
+"pub_time": "2020-02-12 11:07:36",
+"user_name": "ErikVoorhees"
+"content": "How many years does Bitcoin need to be the best performing asset in the world before prudence suggests a 1% portfolio allocation? 10 of the last 12 years Bitcoin has beat every other thing."

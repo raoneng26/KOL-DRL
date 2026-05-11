@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SimuMarket | 舆情-市场耦合仿真系统</title>
+    
+    <!-- 核心依赖 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        html, body {
+            height: auto !important;
+            overflow-y: auto !important;
+            background-color: #f8fafc;
+        }
+
+        /* 针对中间 Feed 保持局部滚动 */
+        .custom-scroll {
+            scrollbar-width: thin;
+            scrollbar-color: #e2e8f0 transparent;
+        }
+        
+        /* 解决 Plotly 图表在容器缩放时可能溢出的问题 */
+        .js-plotly-plot {
+            max-width: 100%;
+        }
+        /* 给主容器一个最小高度，确保内容不挤压 */
+        main {
+            min-height: 100vh;
+            padding-bottom: 50px;
+        }
+        /* 保持中间和左侧容器自滚动（可选，如果你希望局部滚动） */
+        .custom-scroll {
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        /* 磨砂玻璃效果 */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* 自定义滚动条 */
+        .custom-scroll::-webkit-scrollbar { width: 4px; }
+        .custom-scroll::-webkit-scrollbar-track { background: transparent; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+
+        /* 绘图区域容器 */
+        #network-container { height: 100%; width: 100%; }
+        .chart-container { width: 100%; height: 320px; }
+
+        /* 动画引导线 */
+        .guide-line { border-left: 2px solid #f1f5f9; margin-left: 0.75rem; padding-left: 1rem; }
+
+        /* 拖拽控件样式 */
+        #drag-console { cursor: default; }
+        #drag-header { cursor: move; }
+
+        /* 二级评论折叠动画 */
+        .replies-container { 
+            max-height: 0; 
+            overflow: hidden; 
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1); 
+        }
+        .replies-container.expanded { max-height: 2000px; }
+
+        /* 引导线与悬停 */
+        .guide-line { border-left: 2px solid #f1f5f9; margin-left: 0.75rem; padding-left: 1rem; }
+        .sub-comment-item { 
+            transition: all 0.2s ease; 
+            border-left: 3px solid transparent; 
+            cursor: pointer; 
+        }
+        .sub-comment-item:hover { 
+            background: #f8fafc; 
+            border-left-color: #f59e0b; 
+            padding-left: 1.25rem; 
+        }
+
+        /* 网络图容器强制可见 */
+        #network-container {
+            min-height: 600px;
+            height: 100%;
+            width: 100%;
+            background: radial-gradient(circle, #ffffff 0%, #f8fafc 100%);
+        }
+    </style>
+</head>
+<body class="p-6 custom-scroll">
+
+    <!-- 1. 顶部导航栏 -->
+    <header class="flex justify-between items-center mb-6">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center text-white font-black italic shadow-lg">S</div>
+            <div>
+                <h1 class="text-xl font-black tracking-tighter text-slate-900 uppercase">Simu<span class="text-blue-600">Market</span></h1>
+                <p class="text-[8px] text-slate-400 font-bold uppercase tracking-[0.2em]">Agent-Based Sentiment Logic Control</p>
+            </div>
+        </div>
+        
+        <div class="flex items-center gap-4">
+            <div id="status-indicator" class="flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-sm border border-slate-100">
+                <span class="relative flex h-2 w-2">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
+                <span class="text-[10px] font-black text-slate-500 uppercase tracking-widest">System Ready</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. 主展示布局 -->
+    <main class="grid grid-cols-12 gap-6 min-h-screen pb-20"> 
+        
+        <!-- 左侧：智能体网络拓扑 (Col 3) -->
+        <div class="col-span-3 flex flex-col gap-6">
+            <div class="flex-1 bg-white rounded-[2.5rem] p-6 shadow-xl shadow-slate-200/50 border border-white relative flex flex-col overflow-hidden">
+                <div class="flex justify-between items-center mb-4 shrink-0">
+                    <h3 class="text-[10px] font-black uppercase tracking-widest text-slate-400">Network Topology</h3>
+                    <span class="text-[9px] font-bold text-blue-500 bg-blue-50 px-2 py-1 rounded-md">Live Graph</span>
+                </div>
+                
+                <!-- 修正：使用 flex-1 撑满空间，vis.js 会自动填满这个 div -->
+                <div id="network-container" class="flex-1 w-full min-h-0"></div>
+                
+                <!-- 图例说明 (增加毛玻璃效果和更细致的分类) -->
+                <div class="absolute bottom-6 left-6 flex flex-col gap-2 bg-white/80 backdrop-blur-md p-3 rounded-xl border border-slate-50 z-10 shadow-sm">
+                    <div class="flex items-center gap-2 text-[8px] font-bold text-slate-500">
+                        <span class="w-2 h-2 rounded-full bg-amber-400 shadow-sm shadow-amber-200"></span> KOL / Source
+                    </div>
+                    <div class="flex items-center gap-2 text-[8px] font-bold text-slate-500">
+                        <span class="w-2 h-2 rounded-full bg-blue-500 shadow-sm shadow-blue-200"></span> Pro Analyst
+                    </div>
+                    <div class="flex items-center gap-2 text-[8px] font-bold text-slate-500">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 shadow-sm shadow-emerald-200"></span> Active Trader
+                    </div>
+                    <div class="flex items-center gap-2 text-[8px] font-bold text-slate-500">
+                        <span class="w-2 h-2 rounded-full bg-rose-500 shadow-sm shadow-rose-200"></span> Panic Agent
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 中间：社交 Feed 展示 (Col 4) -->
+        <div class="col-span-4 flex flex-col gap-6">
+            <div class="flex-1 overflow-y-auto custom-scroll space-y-6 pr-2">
+                <!-- KOL 核心发帖卡片 -->
+                <div class="bg-white p-8 rounded-[3rem] shadow-xl border border-white relative overflow-hidden shrink-0">
+                    <div class="absolute -right-4 -top-4 text-slate-50 font-black text-8xl italic uppercase select-none leading-none opacity-50">KOL</div>
+                    
+                    <div class="flex items-center gap-4 mb-6 relative z-10">
+                        <div class="w-14 h-14 bg-amber-400 rounded-2xl flex items-center justify-center text-white text-2xl shadow-lg shadow-amber-100">★</div>
+                        <div>
+                            <h3 id="kol-name" class="text-xl font-black text-slate-900 tracking-tight italic uppercase leading-none">Loading Source...</h3>
+                            <p class="text-[10px] text-blue-500 font-bold uppercase tracking-widest mt-2">Sentiment Impact Provider</p>
+                        </div>
+                    </div>
+                    
+                    <p id="kol-content" class="text-xl font-bold text-slate-800 leading-snug mb-8 relative z-10">
+                        The simulation has not been started yet. Please input KOL comments and upload configurations on the console.
+                    </p>
+                    
+                    <!-- 统计数据区：增加 stat-cm 评论展示位 -->
+                    <div class="flex justify-between py-6 border-t border-slate-50 relative z-10">
+                        <div class="text-center">
+                            <span id="stat-likes" class="block text-xl font-black text-slate-900 leading-none">0</span>
+                            <span class="text-[9px] text-slate-400 font-black uppercase mt-2 block">Appreciation</span>
+                        </div>
+                        <div class="text-center">
+                            <span id="stat-rt" class="block text-xl font-black text-slate-900 leading-none">0</span>
+                            <span class="text-[9px] text-slate-400 font-black uppercase mt-2 block">Amplification</span>
+                        </div>
+                        <div class="text-center">
+                            <span id="stat-cm" class="block text-xl font-black text-slate-900 leading-none">0</span>
+                            <span class="text-[9px] text-slate-400 font-black uppercase mt-2 block">Engagement</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 动态评论流容器 -->
+                <div id="comment-flow" class="space-y-4 pb-12">
+                    <!-- 这里由 simulation.js 动态注入一级和二级评论 -->
+                    <div class="text-center py-20">
+                        <p class="text-[10px] font-black text-slate-300 uppercase tracking-[0.2em]">Awaiting Simulation Logs...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 右侧：金融决策面板 (Col 5) -->
+        <div class="col-span-5 flex flex-col gap-6"> <!-- 移除 overflow-hidden 和 h-full -->
+
+            <!-- 在 Col 5 内部，金融图表上方增加 -->
+            <!-- 情绪洞察看板 -->
+            <div class="bg-white rounded-[2.5rem] p-6 shadow-xl border border-white">
+                <h3 class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">Sentiment Intelligence</h3>
+                <div class="grid grid-cols-12 gap-6" id="sentiment-results-area" style="opacity: 0.3; transition: opacity 0.5s;">
+                    
+                    <!-- 左侧：群体情绪 Gemo (占 4 列) -->
+                    <div class="col-span-4 bg-slate-50 rounded-3xl p-5 text-center flex flex-col justify-center">
+                        <p class="text-[8px] font-black text-slate-400 uppercase mb-2">Group Emotion (Gemo)</p>
+                        <div id="gemo-val" class="text-4xl font-black text-slate-300">0.000</div>
+                        <p id="gemo-status" class="text-[7px] font-bold mt-2 uppercase tracking-tighter text-slate-400">Neutral</p>
+                    </div>
+                    
+                    <!-- 右侧：KOL FinBERT 3D (占 8 列) -->
+                    <div class="col-span-8 bg-slate-50 rounded-3xl p-5">
+                        <p class="text-[8px] font-black text-slate-400 uppercase mb-4 text-center">KOL Analysis (FinBERT 3D)</p>
+                        
+                        <div class="space-y-4">
+                            <!-- Positive -->
+                            <div>
+                                <div class="flex justify-between text-[8px] font-black mb-1">
+                                    <span class="text-emerald-500 uppercase">Positive</span>
+                                    <span id="txt-pos" class="text-slate-400">0.0%</span>
+                                </div>
+                                <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+                                    <div id="bar-pos" class="bg-emerald-400 h-full transition-all duration-1000" style="width: 0%"></div>
+                                </div>
+                            </div>
+
+                            <!-- Negative -->
+                            <div>
+                                <div class="flex justify-between text-[8px] font-black mb-1">
+                                    <span class="text-rose-500 uppercase">Negative</span>
+                                    <span id="txt-neg" class="text-slate-400">0.0%</span>
+                                </div>
+                                <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+                                    <div id="bar-neg" class="bg-rose-400 h-full transition-all duration-1000" style="width: 0%"></div>
+                                </div>
+                            </div>
+
+                            <!-- Neutral -->
+                            <div>
+                                <div class="flex justify-between text-[8px] font-black mb-1">
+                                    <span class="text-slate-400 uppercase">Neutral</span>
+                                    <span id="txt-neu" class="text-slate-400">0.0%</span>
+                                </div>
+                                <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+                                    <div id="bar-neu" class="bg-slate-400 h-full transition-all duration-1000" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 看板 1: 市场趋势 (修改 ID 为 price-chart) -->
+            <div class="bg-white rounded-[2.5rem] p-6 shadow-xl border border-white">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-[10px] font-black uppercase tracking-widest text-slate-400">Market Dynamics</h3>
+                    <button id="trade-btn" onclick="executeTrade()" disabled class="px-4 py-2 bg-slate-100 text-slate-400 text-[9px] font-black rounded-xl uppercase tracking-widest cursor-not-allowed">Execute Decision</button>
+                </div>
+                <!-- 确保 ID 是 price-chart -->
+                <div id="price-chart" style="height: 350px; width: 100%;"></div>
+            </div>
+
+            <!-- 看板 2: 资产曲线 (修改 ID 为 equity-chart) -->
+            <div class="bg-white rounded-[2.5rem] p-6 shadow-xl border border-white">
+                <h3 class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">Portfolio Equity</h3>
+                <div id="equity-chart" style="height: 300px; width: 100%;"></div> <!-- 显式高度 -->
+                
+                <!-- 指标表 -->
+                <div class="grid grid-cols-3 gap-2 mt-4">
+                    <div class="p-2 bg-slate-50 rounded-xl"><p class="text-[7px] font-black text-slate-400">SHARPE</p><p id="m-sharpe" class="text-xs font-black">--</p></div>
+                    <div class="p-2 bg-slate-50 rounded-xl"><p class="text-[7px] font-black text-slate-400">DRAWDOWN</p><p id="m-mdd" class="text-xs font-black">--</p></div>
+                    <div class="p-2 bg-emerald-50 rounded-xl"><p class="text-[7px] font-black text-emerald-600">ALPHA</p><p id="m-alpha" class="text-xs font-black text-emerald-600">--</p></div>
+                </div>
+            </div>
+            
+        </div>
+    </main>
+
+    <!-- 3. 可拖拽仿真控制台 -->
+    <div id="drag-console" class="fixed z-[9999] w-80 glass-card rounded-[2.5rem] shadow-2xl border border-blue-500/20 overflow-hidden" 
+         style="top: 100px; left: 40px;">
+        
+        <!-- 拖拽把手 -->
+        <div id="drag-header" class="bg-slate-900 p-4 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-2 h-2 bg-blue-400 rounded-full"></div>
+                <h2 class="text-[9px] font-black uppercase tracking-[0.2em] text-white">Sim-Control Center</h2>
+            </div>
+            <button onclick="toggleConsole()" class="text-slate-500 hover:text-white transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- 控制台主体 -->
+        <div id="console-body" class="p-6 transition-all duration-300">
+            <div class="mb-5">
+                <label class="block text-[8px] font-black text-slate-400 uppercase mb-2 tracking-widest">KOL Source Content</label>
+                <textarea id="ui-kol-content" 
+                    class="w-full h-24 bg-slate-50/50 border border-slate-100 rounded-xl p-3 text-[11px] font-medium focus:ring-2 focus:ring-blue-500/20 outline-none transition-all"
+                    placeholder="输入社交媒体发言内容..."></textarea>
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-[8px] font-black text-slate-400 uppercase mb-2 tracking-widest">Agent Configuration</label>
+                <div class="relative group">
+                    <input type="file" id="ui-config-file" accept=".json"
+                        class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                    <div id="file-name-display" class="bg-slate-50/50 border-2 border-dashed border-slate-200 rounded-xl p-4 text-center group-hover:border-blue-400 transition-colors">
+                        <span class="text-[9px] font-bold text-slate-400 uppercase">点击上传 .json 配置</span>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="executeSim()" id="run-btn"
+                class="w-full py-4 bg-slate-900 text-white rounded-xl font-black text-[9px] uppercase tracking-[0.3em] hover:bg-blue-600 active:scale-95 transition-all shadow-lg shadow-blue-100 flex justify-center items-center gap-2">
+                Start Evolution
+            </button>
+
+                <!-- 新增：情绪分析按钮，初始状态为禁用或灰色 -->
+            <button onclick="analyzeSentiment()" id="sent-btn" disabled
+                class="w-full mt-3 py-3 bg-slate-200 text-slate-400 rounded-xl font-black text-[9px] uppercase tracking-[0.3em] cursor-not-allowed transition-all shadow-sm">
+                Analyze Sentiment
+            </button>
+
+            <!-- 状态提示条 -->
+            <div id="status-bar" class="mt-4 opacity-0 transition-opacity duration-500">
+                <div class="flex items-center gap-2 px-3 py-2 bg-emerald-50 text-emerald-600 rounded-xl border border-emerald-100">
+                    <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
+                    <span class="text-[8px] font-black uppercase tracking-widest" id="status-text">Completed</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 导入外部逻辑脚本 -->
+    <script src="{{ url_for('static', filename='js/simulation.js') }}"></script>
+    <!-- 如果是本地测试，直接写相对路径: <script src="static/js/simulation.js"></script> -->
+
+</body>
+</html>

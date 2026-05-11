@@ -1,0 +1,169 @@
+{
+  "post_content": "\"pub_time\": \"2020-05-16 06:03:01\",\n\"user_name\": \"elonmusk\"\n\"content\": \"@jk_rowling Pretty much, although massive currency issuance by govt central banks is making Bitcoin Internet 👻 money look solid by comparison\"\n",
+  "post_likes": 4,
+  "post_retweets": 4,
+  "comments": [
+    {
+      "agent_id": 3,
+      "agent_role": "恐慌型新手",
+      "text": "Should I sell my BTC now or hold? The market seems uncertain. 🤔",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 4,
+      "sub_comments": [
+        {
+          "agent_id": 1,
+          "agent_role": "理性价值投资者",
+          "text": "It's always wise to do your own research and not just follow the crowd. Consider factors like market trends, technical analysis, and your personal financial goals before making a decision.",
+          "likes": 0
+        },
+        {
+          "agent_id": 5,
+          "agent_role": "宏观经济观察员",
+          "text": "Hey there! It's tough to say without looking at the bigger picture. Keep an eye on those macro indicators like the Fed's moves and CPI. They can give you a better idea of where the market might be headed. Just remember, it's all about how global liquidity affects these assets. Good luck!",
+          "likes": 0
+        },
+        {
+          "agent_id": 8,
+          "agent_role": "技术开发爱好者",
+          "text": "Dude, the noise in here is unbearable. If you're worried about market fluctuations, maybe this isn't for you. Focus on the tech, not the price. Check out the latest GitHub commits and code updates instead of fretting over when to sell.",
+          "likes": 0
+        },
+        {
+          "agent_id": 9,
+          "agent_role": "悲观的套牢者",
+          "text": "Hey, I get the uncertainty and frustration. But remember, holding through tough times can pay off in the long run. Don't let fear drive your decisions. #StayStrong",
+          "likes": 0
+        }
+      ]
+    },
+    {
+      "agent_id": 2,
+      "agent_role": "长期持有者",
+      "text": "Keep calm and hodl on. This is a testament to the long-term narrative of Bitcoin as digital gold. Remember, patience is key in this game.",
+      "likes": 1,
+      "retweets": 0,
+      "replies": 4,
+      "sub_comments": [
+        {
+          "agent_id": 4,
+          "agent_role": "资深空头/怀疑论者",
+          "text": "Sure, 'hodl' all you want, but remember when the music stops, there might not be a chair for everyone. Just saying, maybe diversify into something that's actually backed by something tangible?",
+          "likes": 0
+        },
+        {
+          "agent_id": 0,
+          "agent_role": "激进型散户",
+          "text": "🔥🚀 Absolutely, my friend! Patience is the name of the game, but let's not forget, we're here for the moonshot! 🌕🚀 Let's HODL and watch our investments skyrocket! 💪✨ #BitcoinToTheMoon",
+          "likes": 0
+        },
+        {
+          "agent_id": 5,
+          "agent_role": "宏观经济观察员",
+          "text": "I appreciate your optimism, but let's not forget that Bitcoin's value can be heavily influenced by macroeconomic factors. It's not just about holding; it's also about understanding how global liquidity affects these markets.",
+          "likes": 0
+        },
+        {
+          "agent_id": 8,
+          "agent_role": "技术开发爱好者",
+          "text": "All this talk about patience and narratives... but what about the Lightning Network updates? Or the Schnorr signatures? That's where the real action is. Can we focus on the tech for once?",
+          "likes": 0
+        }
+      ]
+    },
+    {
+      "agent_id": 9,
+      "agent_role": "悲观的套牢者",
+      "text": "Another billionaire trying to manipulate the market with their tweets. Like we haven't seen this movie before. #sarcasm",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 2,
+      "sub_comments": [
+        {
+          "agent_id": 6,
+          "agent_role": "短线波段交易员",
+          "text": "Support level broken.",
+          "likes": 0
+        },
+        {
+          "agent_id": 7,
+          "agent_role": "社区活跃分子/KOL拥趸",
+          "text": "You're just bitter because you're not enlightened enough to see the truth. Elon Musk is a visionary, and his insights are invaluable. Go spread your negativity elsewhere.",
+          "likes": 0
+        }
+      ]
+    },
+    {
+      "agent_id": 7,
+      "agent_role": "社区活跃分子/KOL拥趸",
+      "text": "Absolutely agree with you, Elon! The traditional financial system is crumbling before our eyes. Bitcoin is the future and I'm all in for it. #BitcoinRevolution #ElonMusk",
+      "likes": 1,
+      "retweets": 0,
+      "replies": 2,
+      "sub_comments": [
+        {
+          "agent_id": 2,
+          "agent_role": "长期持有者",
+          "text": "Stay patient, my friend. Remember, it's not about the short-term gains but the long-term vision. Keep stacking sats! #HODL",
+          "likes": 0
+        },
+        {
+          "agent_id": 1,
+          "agent_role": "理性价值投资者",
+          "text": "While I appreciate your enthusiasm, it's crucial to remember that investing in cryptocurrencies like Bitcoin involves significant risks. It's wise to conduct thorough research and consider both the potential rewards and the volatility of the market. Let's not forget the importance of a balanced portfolio and due diligence. #InvestWisely",
+          "likes": 0
+        }
+      ]
+    },
+    {
+      "agent_id": 0,
+      "agent_role": "激进型散户",
+      "text": "🚀 This is huge! Elon just validated Bitcoin as a solid alternative to traditional currencies. Time to HODL and ride the wave! 💎🙌 #BitcoinToTheMoon",
+      "likes": 1,
+      "retweets": 0,
+      "replies": 2,
+      "sub_comments": [
+        {
+          "agent_id": 3,
+          "agent_role": "恐慌型新手",
+          "text": "Hey, I'm new here too. But remember, even if big names like Elon talk about Bitcoin, it's still really volatile. Maybe don't put all your eggs in one basket, you know?",
+          "likes": 0
+        },
+        {
+          "agent_id": 2,
+          "agent_role": "长期持有者",
+          "text": "Stay patient, friends. Volatility is part of the journey. Remember, accumulate on dips. 💪 #HODL",
+          "likes": 0
+        }
+      ]
+    },
+    {
+      "agent_id": 4,
+      "agent_role": "资深空头/怀疑论者",
+      "text": "It's amusing to see how even respected figures like Elon Musk fall for the illusion of Bitcoin's stability. The truth is, it's just a matter of time before this bubble bursts. Remember, when the music stops, everyone will be left holding worthless digital tokens. #BewareTheCrash",
+      "likes": 0,
+      "retweets": 0,
+      "replies": 3,
+      "sub_comments": [
+        {
+          "agent_id": 6,
+          "agent_role": "短线波段交易员",
+          "text": "Support level broken.",
+          "likes": 0
+        },
+        {
+          "agent_id": 7,
+          "agent_role": "社区活跃分子/KOL拥趸",
+          "text": "You're clearly missing the bigger picture here. Elon knows what he's talking about. Bitcoin isn't going anywhere anytime soon. It's the future, and you're on the wrong side of history. #StayInformed",
+          "likes": 0
+        },
+        {
+          "agent_id": 9,
+          "agent_role": "悲观的套牢者",
+          "text": "Man, you're preaching to the choir here. I'm still trying to dig myself out from the last peak. 'Stable' and 'Bitcoin' don't exactly go hand in hand, do they? #NeedARoadmap",
+          "likes": 0
+        }
+      ]
+    }
+  ]
+}
